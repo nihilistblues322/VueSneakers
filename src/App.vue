@@ -16,22 +16,46 @@ const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
 }
 
-const fetchItems = async () => {
+const onChangeSearchInput = (event) => {
+  filters.searchQuery = event.target.value
+}
+
+const fetchFavorites = async () => {
   try {
-    const params = {
-      sortBy: filters.sortBy,
-      searchQuery: filters.searchQuery
-    }
-    const { data } = await axios.get(`https://604781a0efa572c1.mokky.dev/items`, {
-      params
+    const { data: favorites } = await axios.get(`https://604781a0efa572c1.mokky.dev/favorites`)
+    items.value = items.value.map((item) => {
+      const favorite = favorites.find((favorite) => favorite.productId === item.id)
+      if (!favorite) {
+        return item
+      }
+      return { ...item, isFavorite: true, favoriteId: favorite.id }
     })
-    items.value = data
   } catch (err) {
     console.log(err)
   }
 }
 
-onMounted(fetchItems)
+const fetchItems = async () => {
+  try {
+    const params = {
+      sortBy: filters.sortBy
+    }
+    if (filters.searchQuery) {
+      params.title = `*${filters.searchQuery}*`
+    }
+    const { data } = await axios.get(`https://604781a0efa572c1.mokky.dev/items`, {
+      params
+    })
+    items.value = data.map((obj) => ({ ...obj, isFavorite: false, isAdded: false }))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+onMounted(async () => {
+  await fetchItems()
+  await fetchFavorites()
+})
 watch(filters, fetchItems)
 </script>
 
@@ -53,6 +77,7 @@ watch(filters, fetchItems)
           <div class="relative">
             <img class="absolute left-4 top-3" src="/search.svg" alt="search" />
             <input
+              @input="onChangeSearchInput"
               class="border rounded-md py-2 pl-12 pr-4 outline-none focus:border-gray-400"
               type="text"
               placeholder="Поиск..."
