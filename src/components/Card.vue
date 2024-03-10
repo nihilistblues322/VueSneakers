@@ -29,7 +29,7 @@ defineProps({
         <b>{{ price }} руб. </b>
       </div>
       <img
-        @click="OnClickAdd"
+        @click="onClickAdd"
         :src="!isAdded ? '/plus.svg' : '/checked.svg'"
         alt="plus"
       />

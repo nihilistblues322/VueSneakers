@@ -7,6 +7,7 @@ import CardList from "./components/CardList.vue";
 import Drawer from "./components/Drawer.vue";
 
 const items = ref([]);
+const cart = ref([]);
 const drawerOpen = ref(false);
 
 const closeDrawer = () => {
@@ -71,6 +72,24 @@ const addToFavorite = async (item) => {
   }
 };
 
+const addToCart = (item) => {
+  cart.value.push(item);
+  item.isAdded = true;
+};
+
+const removeFromCart = (item) => {
+  cart.value.splice(cart.value.indexOf(item), 1);
+  item.isAdded = false;
+};
+
+const onClickAddPlus = (item) => {
+  if (!item.isAdded) {
+    addToCart(item);
+  } else {
+    removeFromCart(item);
+  }
+};
+
 const fetchItems = async () => {
   try {
     const params = {
@@ -99,7 +118,7 @@ onMounted(async () => {
 });
 
 watch(filters, fetchItems);
-provide("cartActions", { closeDrawer, openDrawer });
+provide("cart", { cart, closeDrawer, openDrawer, addToCart, removeFromCart });
 </script>
 
 <template>
@@ -133,7 +152,11 @@ provide("cartActions", { closeDrawer, openDrawer });
         </div>
       </div>
       <div mt-10>
-        <CardList :items="items" @add-to-favorite="addToFavorite" />
+        <CardList
+          :items="items"
+          @add-to-favorite="addToFavorite"
+          @add-to-cart="onClickAddPlus"
+        />
       </div>
     </div>
   </div>
