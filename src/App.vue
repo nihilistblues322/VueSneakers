@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch, reactive } from "vue";
+import { onMounted, ref, watch, reactive, provide } from "vue";
 import axios from "axios";
 
 import Header from "./components/Header.vue";
@@ -106,7 +106,7 @@ provide("cartActions", { closeDrawer, openDrawer });
   <Drawer v-if="drawerOpen" />
 
   <div class="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
-    <Header @openDrawer="openDrawer" />
+    <Header @open-drawer="openDrawer" />
     <div class="p-10">
       <div class="flex justify-between items-center">
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
@@ -133,7 +133,7 @@ provide("cartActions", { closeDrawer, openDrawer });
         </div>
       </div>
       <div mt-10>
-        <CardList :items="items" @addToFavorite="addToFavorite" />
+        <CardList :items="items" @add-to-favorite="addToFavorite" />
       </div>
     </div>
   </div>
