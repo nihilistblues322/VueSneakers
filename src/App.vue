@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch, reactive, provide } from "vue";
+import { onMounted, ref, watch, reactive, provide, computed } from "vue";
 import axios from "axios";
 
 import Header from "./components/Header.vue";
@@ -9,6 +9,23 @@ import Drawer from "./components/Drawer.vue";
 const items = ref([]);
 const cart = ref([]);
 const drawerOpen = ref(false);
+
+const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0));
+const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100));
+
+const createOrder = async () => {
+  try {
+    const { data } = await axios.post("https://d37da8d2ff58a702.mokky.dev/orders", {
+      items: cart.value,
+      totalPrice: totalPrice.value,
+    });
+
+    cart.value = [];
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const closeDrawer = () => {
   drawerOpen.value = false;
@@ -122,14 +139,12 @@ provide("cart", { cart, closeDrawer, openDrawer, addToCart, removeFromCart });
 </script>
 
 <template>
-  <Drawer v-if="drawerOpen" />
-
+  <Drawer v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" @create-order="createOrder"  />
   <div class="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
-    <Header @open-drawer="openDrawer" />
+    <Header :total-price="totalPrice" @open-drawer="openDrawer" />
     <div class="p-10">
       <div class="flex justify-between items-center">
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
-
         <div class="flex gap-4">
           <select
             @change="onChangeSelect"
@@ -139,7 +154,6 @@ provide("cart", { cart, closeDrawer, openDrawer, addToCart, removeFromCart });
             <option value="price">По цене (дешевые)</option>
             <option value="-price">По цене (дорогие)</option>
           </select>
-
           <div class="relative">
             <img class="absolute left-4 top-3" src="/search.svg" alt="search" />
             <input

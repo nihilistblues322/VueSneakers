@@ -1,6 +1,13 @@
 <script setup>
 import DrawerHead from "./DrawerHead.vue";
 import CartItemList from "./CartItemList.vue";
+
+const emit = defineEmits(["createOrder"]);
+
+defineProps({
+  totalPrice: Number,
+  vatPrice: Number,
+});
 </script>
 
 <template>
@@ -12,15 +19,16 @@ import CartItemList from "./CartItemList.vue";
       <div class="flex gap-2">
         <span>Итого:</span>
         <div class="flex-1 border-b border-dashed"></div>
-        <b>12999 Р</b>
+        <b>{{ totalPrice }} P</b>
       </div>
       <div class="flex gap-2">
         <span>Налог 5%:</span>
         <div class="flex-1 border-b border-dashed"></div>
-        <b>900 Р</b>
+        <b>{{ vatPrice }} P</b>
       </div>
       <button
-        disabled=""
+        @click="() => emit('createOrder')"
+        :disabled="totalPrice ? false : true"
         class="mt-4 bg-lime-500 w-full rounded-xl py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 transition active:bg-lime-700 cursor-pointer"
       >
         Оформить заказ
