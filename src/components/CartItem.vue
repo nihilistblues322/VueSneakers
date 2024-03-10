@@ -6,7 +6,11 @@
       <p>Мужские кроссовки</p>
       <div class="flex justify-between mt-2">
         <b>15000 руб.</b>
-        <img class="opacity-40 hover:opacity-100 cursor-pointer transition" src="/close.svg" alt="">
+        <img
+          class="opacity-40 hover:opacity-100 cursor-pointer transition"
+          src="/close.svg"
+          alt=""
+        />
       </div>
     </div>
   </div>

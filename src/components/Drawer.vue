@@ -1,6 +1,6 @@
 <script setup>
-import DrawerHead from './DrawerHead.vue'
-import CartItemList from './CartItemList.vue'
+import DrawerHead from "./DrawerHead.vue";
+import CartItemList from "./CartItemList.vue";
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import CartItemList from './CartItemList.vue'
   <div class="bg-white w-96 h-full fixed right-0 top-0 z-20 p-8">
     <DrawerHead />
     <CartItemList />
-    <div class="flex flex-col gap-4  my-7">
+    <div class="flex flex-col gap-4 my-7">
       <div class="flex gap-2">
         <span>Итого:</span>
         <div class="flex-1 border-b border-dashed"></div>
