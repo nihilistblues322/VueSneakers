@@ -1,14 +1,5 @@
-# vue-project
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
@@ -33,3 +24,16 @@ npm run build
 ```sh
 npm run lint
 ```
+
+⚙️ Стэк технологий:
+
+    Vue 3
+    Vue Router
+    TailwindCSS
+    Axios
+    @formkit/auto-animate
+    Composition API / Options API
+    ESLint
+    Prettier
+![Безымянный](https://github.com/nihilistblues322/VueSneakers/assets/144712490/9678b966-4e3b-42da-8f7b-0dcc703eb26f)
+
